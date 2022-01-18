@@ -1,0 +1,261 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ck_announcements {
+  id      Int    @id @default(autoincrement())
+  server  String @default("Beginner") @db.VarChar(256)
+  name    String @db.VarChar(32)
+  mapname String @db.VarChar(128)
+  mode    Int    @default(0)
+  time    String @db.VarChar(32)
+  group   Int    @default(0)
+  style   Int    @default(0)
+}
+
+model ck_bonus {
+  steamid   String  @db.VarChar(32)
+  name      String? @db.VarChar(32)
+  mapname   String  @db.VarChar(32)
+  runtime   Float   @default(-1) @db.Float
+  zonegroup Int     @default(1)
+  style     Int     @default(0)
+
+  @@id([steamid, mapname, zonegroup, style])
+  @@index([mapname, runtime, zonegroup, style], map: "bonusrank")
+}
+
+model ck_checkpoints {
+  steamid   String @db.VarChar(32)
+  mapname   String @db.VarChar(32)
+  cp1       Float? @default(0) @db.Float
+  cp2       Float? @default(0) @db.Float
+  cp3       Float? @default(0) @db.Float
+  cp4       Float? @default(0) @db.Float
+  cp5       Float? @default(0) @db.Float
+  cp6       Float? @default(0) @db.Float
+  cp7       Float? @default(0) @db.Float
+  cp8       Float? @default(0) @db.Float
+  cp9       Float? @default(0) @db.Float
+  cp10      Float? @default(0) @db.Float
+  cp11      Float? @default(0) @db.Float
+  cp12      Float? @default(0) @db.Float
+  cp13      Float? @default(0) @db.Float
+  cp14      Float? @default(0) @db.Float
+  cp15      Float? @default(0) @db.Float
+  cp16      Float? @default(0) @db.Float
+  cp17      Float? @default(0) @db.Float
+  cp18      Float? @default(0) @db.Float
+  cp19      Float? @default(0) @db.Float
+  cp20      Float? @default(0) @db.Float
+  cp21      Float? @default(0) @db.Float
+  cp22      Float? @default(0) @db.Float
+  cp23      Float? @default(0) @db.Float
+  cp24      Float? @default(0) @db.Float
+  cp25      Float? @default(0) @db.Float
+  cp26      Float? @default(0) @db.Float
+  cp27      Float? @default(0) @db.Float
+  cp28      Float? @default(0) @db.Float
+  cp29      Float? @default(0) @db.Float
+  cp30      Float? @default(0) @db.Float
+  cp31      Float? @default(0) @db.Float
+  cp32      Float? @default(0) @db.Float
+  cp33      Float? @default(0) @db.Float
+  cp34      Float? @default(0) @db.Float
+  cp35      Float? @default(0) @db.Float
+  zonegroup Int    @default(0)
+
+  @@id([steamid, mapname, zonegroup])
+}
+
+model ck_latestrecords {
+  steamid String   @db.VarChar(32)
+  name    String?  @db.VarChar(32)
+  runtime Float    @default(-1) @db.Float
+  map     String   @db.VarChar(32)
+  date    DateTime @default(now()) @db.Timestamp(0)
+
+  @@id([steamid, map, date])
+}
+
+model ck_maptier {
+  mapname        String @id @db.VarChar(54)
+  tier           Int
+  maxvelocity    Float  @default(3500) @db.Float
+  announcerecord Int    @default(0)
+  gravityfix     Int    @default(1)
+  ranked         Int    @default(1)
+}
+
+model ck_newmaps {
+  mapname String   @id @db.VarChar(32)
+  date    DateTime @default(now()) @db.Timestamp(0)
+}
+
+model ck_playeroptions2 {
+  steamid      String @id @default("") @db.VarChar(32)
+  timer        Int    @default(1)
+  hide         Int    @default(0)
+  sounds       Int    @default(1)
+  chat         Int    @default(0)
+  viewmodel    Int    @default(1)
+  autobhop     Int    @default(1)
+  checkpoints  Int    @default(1)
+  gradient     Int    @default(3)
+  speedmode    Int    @default(0)
+  centrespeed  Int    @default(0)
+  centrehud    Int    @default(1)
+  teleside     Int    @default(0)
+  module1c     Int    @default(1)
+  module2c     Int    @default(2)
+  module3c     Int    @default(3)
+  module4c     Int    @default(4)
+  module5c     Int    @default(5)
+  module6c     Int    @default(6)
+  sidehud      Int    @default(1)
+  module1s     Int    @default(5)
+  module2s     Int    @default(0)
+  module3s     Int    @default(0)
+  module4s     Int    @default(0)
+  module5s     Int    @default(0)
+  prestrafe    Int    @default(0)
+  cpmessages   Int    @default(1)
+  wrcpmessages Int    @default(1)
+}
+
+model ck_playerrank {
+  steamid         String  @default("") @db.VarChar(32)
+  steamid64       String? @db.VarChar(64)
+  name            String? @db.VarChar(32)
+  country         String? @db.VarChar(32)
+  points          Int?    @default(0)
+  wrpoints        Int     @default(0)
+  wrbpoints       Int     @default(0)
+  wrcppoints      Int     @default(0)
+  top10points     Int     @default(0)
+  groupspoints    Int     @default(0)
+  mappoints       Int     @default(0)
+  bonuspoints     Int     @default(0)
+  finishedmaps    Int?    @default(0)
+  finishedmapspro Int?    @default(0)
+  finishedbonuses Int     @default(0)
+  finishedstages  Int     @default(0)
+  wrs             Int     @default(0)
+  wrbs            Int     @default(0)
+  wrcps           Int     @default(0)
+  top10s          Int     @default(0)
+  groups          Int     @default(0)
+  lastseen        Int?
+  joined          Int
+  timealive       Int     @default(0)
+  timespec        Int     @default(0)
+  connections     Int     @default(1)
+  readchangelog   Int     @default(0)
+  style           Int     @default(0)
+
+  @@id([steamid, style])
+}
+
+model ck_playertemp {
+  steamid     String @db.VarChar(32)
+  mapname     String @db.VarChar(32)
+  cords1      Float  @default(-1) @db.Float
+  cords2      Float  @default(-1) @db.Float
+  cords3      Float  @default(-1) @db.Float
+  angle1      Float  @default(-1) @db.Float
+  angle2      Float  @default(-1) @db.Float
+  angle3      Float  @default(-1) @db.Float
+  EncTickrate Int?   @default(-1)
+  runtimeTmp  Float  @default(-1) @db.Float
+  Stage       Int?
+  zonegroup   Int    @default(0)
+
+  @@id([steamid, mapname])
+}
+
+model ck_playertimes {
+  steamid    String  @db.VarChar(32)
+  mapname    String  @db.VarChar(32)
+  name       String? @db.VarChar(32)
+  runtimepro Float   @default(-1) @db.Float
+  style      Int     @default(0)
+
+  @@id([steamid, mapname, style])
+  @@index([mapname, runtimepro, style], map: "maprank")
+}
+
+model ck_spawnlocations {
+  mapname   String @db.VarChar(54)
+  pos_x     Float  @db.Float
+  pos_y     Float  @db.Float
+  pos_z     Float  @db.Float
+  ang_x     Float  @db.Float
+  ang_y     Float  @db.Float
+  ang_z     Float  @db.Float
+  vel_x     Float  @default(0) @db.Float
+  vel_y     Float  @default(0) @db.Float
+  vel_z     Float  @default(0) @db.Float
+  zonegroup Int    @default(0)
+  stage     Int    @default(0)
+  teleside  Int    @default(0)
+
+  @@id([mapname, zonegroup, stage, teleside])
+}
+
+model ck_vipadmins {
+  steamid    String  @id @default("") @db.VarChar(32)
+  title      String? @default("0") @db.VarChar(128)
+  namecolour Int?    @default(0)
+  textcolour Int     @default(0)
+  joinmsg    String? @default("none") @db.VarChar(255)
+  pbsound    String  @default("none") @db.VarChar(256)
+  topsound   String  @default("none") @db.VarChar(256)
+  wrsound    String  @default("none") @db.VarChar(256)
+  inuse      Int?    @default(0)
+  vip        Int?    @default(0)
+  admin      Int     @default(0)
+  zoner      Int     @default(0)
+  active     Int     @default(1)
+
+  @@index([steamid, vip, admin, zoner], map: "vip")
+}
+
+model ck_wrcps {
+  steamid    String  @default("") @db.VarChar(32)
+  name       String? @db.VarChar(32)
+  mapname    String  @default("") @db.VarChar(32)
+  runtimepro Float   @default(-1) @db.Float
+  stage      Int
+  style      Int     @default(0)
+
+  @@id([steamid, mapname, stage, style])
+  @@index([mapname, runtimepro, stage, style], map: "stagerank")
+}
+
+model ck_zones {
+  mapname      String  @db.VarChar(54)
+  zoneid       Int     @default(-1)
+  zonetype     Int?    @default(-1)
+  zonetypeid   Int?    @default(-1)
+  pointa_x     Float?  @default(-1) @db.Float
+  pointa_y     Float?  @default(-1) @db.Float
+  pointa_z     Float?  @default(-1) @db.Float
+  pointb_x     Float?  @default(-1) @db.Float
+  pointb_y     Float?  @default(-1) @db.Float
+  pointb_z     Float?  @default(-1) @db.Float
+  vis          Int?    @default(0)
+  team         Int?    @default(0)
+  zonegroup    Int     @default(0)
+  zonename     String? @db.VarChar(128)
+  hookname     String? @default("None") @db.VarChar(128)
+  targetname   String? @default("player") @db.VarChar(128)
+  onejumplimit Int     @default(1)
+  prespeed     Int     @default(350)
+
+  @@id([mapname, zoneid])
+}

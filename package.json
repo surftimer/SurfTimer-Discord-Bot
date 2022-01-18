@@ -1,0 +1,30 @@
+{
+  "name": "surftimer-discord-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot for the SurfTimer plugin for CS:GO.",
+  "main": "./dist/main.js",
+  "scripts": {
+    "start": "node ./dist/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "npm": ">=8.1.2",
+    "node": ">=16.13.2"
+  },
+  "author": "Sarrus",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/builders": "^0.11.0",
+    "@discordjs/opus": "^0.7.0",
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "discord-api-types": "^0.26.1",
+    "discord.js": "^13.6.0",
+    "dotenv": "^14.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4",
+    "@prisma/client": "^3.8.1",
+    "ts-node": "10.4.0",
+    "@types/node": "16.11.19"
+  }
+}
