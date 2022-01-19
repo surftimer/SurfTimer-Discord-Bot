@@ -2,12 +2,15 @@
 import { readdirSync } from 'fs';
 import { PrismaClient } from '@prisma/client';
 import * as dotenv from 'dotenv';
+import { SteamWebApi } from '@j4ckofalltrades/steam-webapi-ts';
 import { join } from 'path';
 
 import { regCommands } from './deploy-commands';
 import { SlashCommand } from './types';
 
 dotenv.config();
+
+export const steamWebApi = new SteamWebApi(process.env.STEAM_API_KEY);
 
 export const prisma = new PrismaClient();
 
@@ -20,8 +23,12 @@ readdirSync(join(__dirname, 'commands')).forEach((file) => {
   if (!file.endsWith('.js')) {
     return;
   }
-  const command = require(`./commands/${file}`);
-  commands.set(command.default.data.name, command.default);
+  try {
+    const command = require(`./commands/${file}`);
+    commands.set(command.default.data.name, command.default);
+  } catch (e) {
+    console.error(e);
+  }
 });
 console.log('Done reading commands.');
 console.log('Registering commands...');

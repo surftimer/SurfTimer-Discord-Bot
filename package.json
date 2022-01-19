@@ -18,9 +18,13 @@
     "@discordjs/builders": "^0.11.0",
     "@discordjs/opus": "^0.7.0",
     "@discordjs/rest": "^0.2.0-canary.0",
+    "@j4ckofalltrades/steam-webapi-ts": "^1.0.1",
+    "axios": "^0.25.0",
     "discord-api-types": "^0.26.1",
     "discord.js": "^13.6.0",
-    "dotenv": "^14.2.0"
+    "dotenv": "^14.2.0",
+    "steamid": "^2.0.0",
+    "steamid-resolver": "^1.2.2"
   },
   "devDependencies": {
     "@prisma/client": "^3.8.1",

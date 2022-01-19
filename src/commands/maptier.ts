@@ -9,7 +9,7 @@ dotenv.config();
 export default {
   data: new SlashCommandBuilder()
     .setName('maptier')
-    .setDescription('Gets the tier of a map')
+    .setDescription('Gets the tier of a map.')
     .addStringOption((option) =>
       option
         .setName('mapname')
