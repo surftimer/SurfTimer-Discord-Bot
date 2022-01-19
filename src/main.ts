@@ -1,7 +1,8 @@
-﻿import { Client, Intents } from "discord.js";
-import * as dotenv from "dotenv";
-import { reg } from "./commands/test";
-import { PrismaClient } from "@prisma/client";
+﻿import { Client, Intents } from 'discord.js';
+import * as dotenv from 'dotenv';
+import { PrismaClient } from '@prisma/client';
+
+import { reg } from './commands/test';
 
 const prisma = new PrismaClient();
 
@@ -11,24 +12,23 @@ dotenv.config();
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 // When the client is ready, run this code (only once)
-client.once("ready", () => {
-  console.log("Ready!");
+client.once('ready', () => {
+  console.log('Ready!');
 });
 
 reg();
 
-client.on("interactionCreate", async (interaction) => {
+client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
   const { commandName } = interaction;
 
-  if (commandName === "ping") {
+  if (commandName === 'ping') {
     const map = await prisma.ck_maptier.findUnique({
       where: {
-        mapname: "surf_004_fix",
+        mapname: 'surf_004_fix',
       },
       select: {
-        mapname: true,
         tier: true,
       },
     });

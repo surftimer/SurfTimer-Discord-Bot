@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Start Bot",
+      "type": "node",
+      "request": "launch",
+      "args": ["./dist/main.js"],
+      "sourceMaps": true,
+      "outFiles": ["${workspaceRoot}/dist/**/*.js"]
+    }
+  ]
+}

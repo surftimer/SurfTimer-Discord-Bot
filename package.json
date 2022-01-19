@@ -5,6 +5,7 @@
   "main": "./dist/main.js",
   "scripts": {
     "start": "node ./dist/main.js",
+    "watch": "tsc -b --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
@@ -22,9 +23,10 @@
     "dotenv": "^14.2.0"
   },
   "devDependencies": {
-    "typescript": "^4.5.4",
     "@prisma/client": "^3.8.1",
+    "@types/node": "16.11.19",
+    "ts-loader": "^9.2.6",
     "ts-node": "10.4.0",
-    "@types/node": "16.11.19"
+    "typescript": "^4.5.4"
   }
 }
