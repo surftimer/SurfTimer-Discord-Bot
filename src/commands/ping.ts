@@ -1,7 +1,6 @@
 ﻿import { SlashCommandBuilder } from '@discordjs/builders';
+import { CommandInteraction } from 'discord.js';
 import * as dotenv from 'dotenv';
-
-//import { prisma } from '../main';
 
 dotenv.config();
 
@@ -10,6 +9,10 @@ export default {
     .setName('ping')
     .setDescription('Replies with Pong!'),
   async execute(interaction) {
-    await interaction.reply('Pong!');
+    await cmdCallback(interaction);
   },
 };
+
+async function cmdCallback(interaction: CommandInteraction): Promise<void> {
+  return interaction.reply('Pong!');
+}
