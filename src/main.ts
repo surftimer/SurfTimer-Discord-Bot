@@ -1,39 +1,52 @@
 ﻿import { Client, Intents } from 'discord.js';
-import * as dotenv from 'dotenv';
+import { readdirSync } from 'fs';
 import { PrismaClient } from '@prisma/client';
+import * as dotenv from 'dotenv';
+import { join } from 'path';
 
-import { reg } from './commands/test';
-
-const prisma = new PrismaClient();
+import { regCommands } from './deploy-commands';
+import { SlashCommand } from './types';
 
 dotenv.config();
 
-// Create a new client instance
+export const prisma = new PrismaClient();
+
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
-// When the client is ready, run this code (only once)
+const commands = new Map<string, SlashCommand>();
+
+console.log('Reading commands...');
+readdirSync(join(__dirname, 'commands')).forEach((file) => {
+  if (!file.endsWith('.js')) {
+    return;
+  }
+  const command = require(`./commands/${file}`);
+  commands.set(command.default.data.name, command.default);
+});
+console.log('Done reading commands.');
+console.log('Registering commands...');
+regCommands(Array.from(commands.values()).map((c) => c.data.toJSON()));
+
 client.once('ready', () => {
   console.log('Ready!');
 });
 
-reg();
-
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
-  const { commandName } = interaction;
+  const command = commands.get(interaction.commandName);
 
-  if (commandName === 'ping') {
-    const map = await prisma.ck_maptier.findUnique({
-      where: {
-        mapname: 'surf_004_fix',
-      },
-      select: {
-        tier: true,
-      },
+  if (command === undefined) {
+    return;
+  }
+  try {
+    await command.execute(interaction);
+  } catch (e) {
+    console.error(e);
+    await interaction.reply({
+      content: `There was an error while executing ${interaction}`,
+      ephemeral: true,
     });
-    console.dir(map, { depth: null });
-    await interaction.reply(map.tier.toString());
   }
 });
 
