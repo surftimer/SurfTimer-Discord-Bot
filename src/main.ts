@@ -14,6 +14,9 @@ export const steamWebApi = new SteamWebApi(process.env.STEAM_API_KEY);
 
 export const prisma = new PrismaClient();
 
+export const MAPS_IMAGES_URL =
+  'https://raw.githubusercontent.com/Sayt123/SurfMapPics/Maps-and-bonuses/csgo/';
+
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 const commands = new Map<string, SlashCommand>();
