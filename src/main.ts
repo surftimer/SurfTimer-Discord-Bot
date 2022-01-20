@@ -49,11 +49,15 @@ client.on('interactionCreate', async (interaction) => {
   try {
     await command.execute(interaction);
   } catch (e) {
-    console.error(e);
-    await interaction.reply({
-      content: `There was an error while executing ${interaction}`,
-      ephemeral: true,
-    });
+    console.error(e.toString());
+    try {
+      await interaction.reply({
+        content: `There was an error while executing ${interaction}`,
+        ephemeral: true,
+      });
+    } catch (e) {
+      console.error(`Error response failed for ${interaction}`);
+    }
   }
 });
 

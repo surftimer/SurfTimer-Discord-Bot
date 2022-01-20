@@ -1,6 +1,16 @@
 ﻿import axios from 'axios';
 const SteamID = require('steamid');
 
+/**
+ * Parse an input and tries to convert it to a steamid64.
+ * This function accepts:
+ * - vanity steam URL.
+ * - regular steam profiles.
+ * - any valid steamID.
+ * @param  {string} input
+ * @param  {string} steamAPIKey
+ * @returns Promise
+ */
 export async function convertToSteam64(
   input: string,
   steamAPIKey: string,

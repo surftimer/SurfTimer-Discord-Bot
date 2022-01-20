@@ -1,5 +1,5 @@
 ﻿import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction } from 'discord.js';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 import * as dotenv from 'dotenv';
 import { prisma, steamWebApi } from '../main';
 import { convertToSteam64 } from '../utils/convertToSteam64';
@@ -34,23 +34,92 @@ async function cmdCallback(interaction: CommandInteraction): Promise<void> {
     return interaction.reply('Incorrect playerID.');
   }
 
-  const res = await prisma.ck_playerrank.findFirst({
+  const player = playerInfo.response.players[0];
+
+  const res1 = await prisma.ck_playerrank.findFirst({
     where: {
       steamid64: steamID64,
     },
     select: {
       points: true,
+      steamid: true,
     },
   });
 
-  const personaname = playerInfo.response.players[0].personaname;
+  const personaname = player.personaname;
+  const avatarfull = player.avatarfull;
+  const profileurl = player.profileurl;
 
-  if (!res) {
+  if (!res1) {
     return interaction.reply(
       `${personaname} not found in the SurfTimer database.`,
     );
   }
+  const { points, steamid } = res1;
 
-  const points = res.points;
-  return interaction.reply(`${personaname} has ${points} points.`);
+  const rank = await prisma.ck_playerrank.count({
+    where: {
+      points: {
+        gte: points,
+      },
+      style: {
+        equals: 0,
+      },
+    },
+  });
+
+  const totalNbPlayers = await prisma.ck_playerrank.count();
+
+  const finishedMaps = await prisma.ck_playertimes.count({
+    where: {
+      steamid: steamid,
+      style: 0,
+    },
+  });
+
+  const totalMaps = await prisma.ck_maptier.count();
+
+  const finishedBonuses = await prisma.ck_bonus.count({
+    where: {
+      steamid: steamid,
+      style: 0,
+    },
+  });
+
+  const totalBonusesQuery: number =
+    await prisma.$queryRaw`SELECT DISTINCT COUNT(zonename) as "nb" FROM ck_zones WHERE zonegroup>0`;
+  const totalBonuses: number = totalBonusesQuery[0]['nb'];
+
+  const percentMaps = Math.round(
+    (finishedMaps / (totalMaps ? totalMaps : 1)) * 100,
+  );
+
+  const percentBonuses = Math.round(
+    (finishedBonuses / (totalBonuses ? totalBonuses : 1)) * 100,
+  );
+
+  const embed = new MessageEmbed()
+    .setTitle(`📈 __Player statistics__ 📈`)
+    .setThumbnail(avatarfull)
+    .addFields([
+      {
+        name: 'Player',
+        value: `[${personaname}](${profileurl})`,
+        inline: true,
+      },
+      {
+        name: 'Completed maps',
+        value: `${percentMaps}%`,
+        inline: true,
+      },
+      {
+        name: 'Completed bonuses',
+        value: `${percentBonuses}%`,
+        inline: true,
+      },
+      { name: 'Rank', value: `${rank + 1}/${totalNbPlayers}`, inline: true },
+      { name: 'Score', value: points.toString(), inline: true },
+    ]);
+
+  return interaction.reply({ embeds: [embed] });
 }
