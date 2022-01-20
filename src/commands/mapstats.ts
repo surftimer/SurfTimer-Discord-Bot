@@ -30,11 +30,14 @@ async function cmdCallback(interaction: CommandInteraction): Promise<void> {
     },
     select: {
       tier: true,
+      maxvelocity: true,
     },
   });
-  if (res1 === undefined) {
+  if (!res1) {
     return interaction.reply(`${mapname} not found.`);
   }
+
+  const { tier, maxvelocity } = res1;
 
   const averageRunTime = await prisma.ck_playertimes.aggregate({
     _avg: {
@@ -58,6 +61,52 @@ async function cmdCallback(interaction: CommandInteraction): Promise<void> {
 
   const bestRunTimeForm = toMMSS(bestRunTime._min.runtimepro);
 
+  const completionsNb = await prisma.ck_playertimes.count({
+    where: {
+      mapname: mapname,
+    },
+  });
+
+  const stagesNb = await prisma.ck_zones.count({
+    where: {
+      mapname: mapname,
+      OR: [
+        {
+          zonetype: {
+            equals: 3,
+          },
+        },
+        {
+          zonetype: {
+            equals: 4,
+          },
+        },
+      ],
+    },
+  });
+
+  const bonusesNb = await prisma.ck_zones.count({
+    where: {
+      AND: [
+        { mapname: { equals: mapname } },
+        {
+          OR: [
+            {
+              zonename: {
+                contains: 'bonus',
+              },
+            },
+            {
+              zonename: {
+                contains: 'BONUS',
+              },
+            },
+          ],
+        },
+      ],
+    },
+  });
+
   const embed = new MessageEmbed()
     .setTitle(`📈 __Map statistics__ 📈`)
     .setImage(`${MAPS_IMAGES_URL}/${mapname}.jpg`)
@@ -68,6 +117,26 @@ async function cmdCallback(interaction: CommandInteraction): Promise<void> {
         inline: true,
       },
       {
+        name: 'Tier',
+        value: tier.toString(),
+        inline: true,
+      },
+      {
+        name: 'Max velocity',
+        value: maxvelocity.toString(),
+        inline: true,
+      },
+      {
+        name: 'Number of stages',
+        value: stagesNb.toString(),
+        inline: true,
+      },
+      {
+        name: 'Number of bonuses',
+        value: bonusesNb.toString(),
+        inline: true,
+      },
+      {
         name: 'Average runtime',
         value: averageRunTimeForm,
         inline: true,
@@ -75,6 +144,11 @@ async function cmdCallback(interaction: CommandInteraction): Promise<void> {
       {
         name: 'Record',
         value: bestRunTimeForm,
+        inline: true,
+      },
+      {
+        name: 'Number of completions',
+        value: completionsNb.toString(),
         inline: true,
       },
     ]);
