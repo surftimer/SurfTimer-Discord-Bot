@@ -15,7 +15,7 @@ export async function convertToSteam64(
   input: string,
   steamAPIKey: string,
 ): Promise<string> {
-  let match = input.match(/https?:\/\/steamcommunity\.com\/id\/(.+)\/?$/);
+  let match = input.match(/https?:\/\/steamcommunity\.com\/id\/([^\/]+)\/?$/);
 
   if (match) {
     try {
