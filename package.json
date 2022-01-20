@@ -28,6 +28,7 @@
     "steamid-resolver": "^1.2.2"
   },
   "devDependencies": {
+    "prisma": "^3.8.1",
     "@prisma/client": "^3.8.1",
     "@types/node": "16.11.19",
     "ts-loader": "^9.2.6",
