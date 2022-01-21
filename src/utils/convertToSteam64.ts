@@ -1,6 +1,8 @@
 ﻿import axios from 'axios';
 const SteamID = require('steamid');
 
+import { prisma } from '../main';
+
 /**
  * Parse an input and tries to convert it to a steamid64.
  * This function accepts:
@@ -34,7 +36,21 @@ export async function convertToSteam64(
   try {
     let sid = new SteamID(input);
     return sid.getSteamID64();
-  } catch (e) {
-    return undefined;
+  } catch (e) {}
+
+  // Try to extrapolate steamid64 by looking in the database.
+  const res = await prisma.ck_playerrank.findFirst({
+    where: {
+      name: {
+        contains: input,
+      },
+    },
+    select: {
+      steamid64: true,
+    },
+  });
+  if (res !== undefined) {
+    return res.steamid64;
   }
+  return undefined;
 }

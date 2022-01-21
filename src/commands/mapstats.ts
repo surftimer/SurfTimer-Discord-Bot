@@ -23,7 +23,7 @@ export default {
 };
 
 async function cmdCallback(interaction: CommandInteraction): Promise<void> {
-  const mapname = interaction.options.getString('mapname');
+  const mapname = interaction.options.getString('mapname').toLowerCase();
   const res1 = await prisma.ck_maptier.findUnique({
     where: {
       mapname: mapname,
