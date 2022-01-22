@@ -1,10 +1,10 @@
-﻿# Discord token
+﻿# Discord token (https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)
 TOKEN=0000000000000
-# Guild ID
+# Guild ID (https://poshbot.readthedocs.io/en/latest/guides/backends/setup-discord-backend/#find-your-guild-id-server-id)
 GUILDID=0000000000000
-# Application ID
+# Application ID (https://poshbot.readthedocs.io/en/latest/guides/backends/setup-discord-backend/#authorize-your-bot)
 CLIENTID=0000000000000
-# Database URL
+# Database URL (https://www.prisma.io/docs/concepts/database-connectors/mysql#connection-url)
 DATABASE_URL=mysql://USER:PASSWORD@HOST:PORT/DATABASE
-# Steam Web API key
+# Steam Web API key (https://steamcommunity.com/dev/apikey)
 STEAM_API_KEY=0000000000000
