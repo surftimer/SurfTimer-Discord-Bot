@@ -6,6 +6,10 @@ This bot provides basic commands such as `/playerstats <playerid>`, `/mapstats <
 
 It uses the [discord.js](https://discord.js.org/#/) library and the [prisma ORM](https://www.prisma.io/).
 
+## Credits
+
+- A huge thanks to [Sayt123](https://github.com/Sayt123) for their collection of surf map images, without which this bot would not look nearly as good!
+
 ## How to use it
 
 ### Using Docker (recommended)
