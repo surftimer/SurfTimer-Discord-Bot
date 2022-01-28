@@ -1,10 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model ck_announcements {
@@ -19,12 +19,15 @@ model ck_announcements {
 }
 
 model ck_bonus {
-  steamid   String  @db.VarChar(32)
-  name      String? @db.VarChar(32)
-  mapname   String  @db.VarChar(32)
-  runtime   Float   @default(-1) @db.Float
-  zonegroup Int     @default(1)
-  style     Int     @default(0)
+  steamid     String  @db.VarChar(32)
+  name        String? @db.VarChar(32)
+  mapname     String  @db.VarChar(32)
+  runtime     Float   @default(-1) @db.Float
+  zonegroup   Int     @default(1)
+  style       Int     @default(0)
+  velStartXY  Int     @default(0) @db.SmallInt
+  velStartXYZ Int     @default(0) @db.SmallInt
+  velStartZ   Int     @default(0) @db.SmallInt
 
   @@id([steamid, mapname, zonegroup, style])
   @@index([mapname, runtime, zonegroup, style], map: "bonusrank")
@@ -126,6 +129,7 @@ model ck_playeroptions2 {
   prestrafe    Int    @default(0)
   cpmessages   Int    @default(1)
   wrcpmessages Int    @default(1)
+  hints        Int    @default(1)
 }
 
 model ck_playerrank {
@@ -179,11 +183,14 @@ model ck_playertemp {
 }
 
 model ck_playertimes {
-  steamid    String  @db.VarChar(32)
-  mapname    String  @db.VarChar(32)
-  name       String? @db.VarChar(32)
-  runtimepro Float   @default(-1) @db.Float
-  style      Int     @default(0)
+  steamid     String  @db.VarChar(32)
+  mapname     String  @db.VarChar(32)
+  name        String? @db.VarChar(32)
+  runtimepro  Float   @default(-1) @db.Float
+  style       Int     @default(0)
+  velStartXY  Int     @default(0) @db.SmallInt
+  velStartXYZ Int     @default(0) @db.SmallInt
+  velStartZ   Int     @default(0) @db.SmallInt
 
   @@id([steamid, mapname, style])
   @@index([mapname, runtimepro, style], map: "maprank")
@@ -226,12 +233,15 @@ model ck_vipadmins {
 }
 
 model ck_wrcps {
-  steamid    String  @default("") @db.VarChar(32)
-  name       String? @db.VarChar(32)
-  mapname    String  @default("") @db.VarChar(32)
-  runtimepro Float   @default(-1) @db.Float
-  stage      Int
-  style      Int     @default(0)
+  steamid     String  @default("") @db.VarChar(32)
+  name        String? @db.VarChar(32)
+  mapname     String  @default("") @db.VarChar(32)
+  runtimepro  Float   @default(-1) @db.Float
+  stage       Int
+  style       Int     @default(0)
+  velStartXY  Int     @default(0) @db.SmallInt
+  velStartXYZ Int     @default(0) @db.SmallInt
+  velStartZ   Int     @default(0) @db.SmallInt
 
   @@id([steamid, mapname, stage, style])
   @@index([mapname, runtimepro, stage, style], map: "stagerank")
