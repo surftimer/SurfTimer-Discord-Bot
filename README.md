@@ -12,19 +12,19 @@ It uses the [discord.js](https://discord.js.org/#/) library and the [prisma ORM]
 
 ### Playerstats Command
 
-![Playerstats Command](https://raw.githubusercontent.com/Sarrus1/sourcepawn-vscode/dev/images/highlighting-example-1.png)
+![Playerstats Command](https://github.com/Sarrus1/SurfTimer-Discord-Bot/blob/main/examples/playerstats.PNG?raw=true)
 
 ### Top Command
 
-![Playerstats Command](https://raw.githubusercontent.com/Sarrus1/sourcepawn-vscode/dev/images/highlighting-example-2.png)
+![Top Command](https://github.com/Sarrus1/SurfTimer-Discord-Bot/blob/main/examples/top.PNG?raw=true)
 
 ### Mapstats Command
 
-![Mapstats Command](https://raw.githubusercontent.com/Sarrus1/sourcepawn-vscode/dev/images/highlighting-example-1.png)
+![Mapstats Command](https://raw.githubusercontent.com/Sarrus1/SurfTimer-Discord-Bot/main/examples/mapstats.PNG)
 
 ### Image generator
 
-![Image generator](https://raw.githubusercontent.com/Sarrus1/sourcepawn-vscode/dev/images/highlighting-example-2.png)
+![Image generator](https://github.com/Sarrus1/SurfTimer-Discord-Bot/blob/main/examples/test.PNG?raw=true)
 
 ## Credits
 
