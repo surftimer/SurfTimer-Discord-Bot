@@ -1,8 +1,5 @@
 ﻿import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 

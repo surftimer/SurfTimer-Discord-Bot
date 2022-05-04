@@ -1,7 +1,4 @@
 ﻿import { SlashCommandBuilder } from '@discordjs/builders';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 export default {
   data: new SlashCommandBuilder()
@@ -13,6 +10,7 @@ export default {
       const reply = await cmdCallback();
       await interaction.editReply(reply);
     } catch (err) {
+      console.error(err);
       await interaction.editReply('An internal error occured.');
     }
   },

@@ -4,7 +4,27 @@ A Discord bot for the Sourcemod [Surftimer](https://github.com/surftimer/Surftim
 
 This bot provides basic commands such as `/playerstats <playerid>`, `/mapstats <mapname>` and `/top`.
 
+The bot can also generate custom images of new records when they are set.
+
 It uses the [discord.js](https://discord.js.org/#/) library and the [prisma ORM](https://www.prisma.io/).
+
+## Examples
+
+### Playerstats Command
+
+![Playerstats Command](https://raw.githubusercontent.com/Sarrus1/sourcepawn-vscode/dev/images/highlighting-example-1.png)
+
+### Top Command
+
+![Playerstats Command](https://raw.githubusercontent.com/Sarrus1/sourcepawn-vscode/dev/images/highlighting-example-2.png)
+
+### Mapstats Command
+
+![Mapstats Command](https://raw.githubusercontent.com/Sarrus1/sourcepawn-vscode/dev/images/highlighting-example-1.png)
+
+### Image generator
+
+![Image generator](https://raw.githubusercontent.com/Sarrus1/sourcepawn-vscode/dev/images/highlighting-example-2.png)
 
 ## Credits
 
@@ -33,6 +53,13 @@ It uses the [discord.js](https://discord.js.org/#/) library and the [prisma ORM]
 5. Edit the environment variables accordingly (follow the URL for a detailed guide).
 6. Open a terminal and run `npm i && npm run build`
 7. To start the bot, run `npm run start`
+
+### (Optional) Configuring the image generator
+
+1. Install the plugin in `addons/sourcemod/plugins` on your server.
+2. Run it once to generate the config file at `cfg/sourcemod/SurfTimer-Discord-Bot.cfg`.
+3. In this config file, set your hostname, the port of the API (3000 by default) and the API key you've configured in the previous steps (in your .env file).
+4. Reload the plugin and make sure everything is working with the command `!ck_discord_bot_test`.
 
 ## Tech Stack
 

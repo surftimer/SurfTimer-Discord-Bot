@@ -4,12 +4,9 @@ import {
   MessageEmbed,
   WebhookMessageOptions,
 } from 'discord.js';
-import * as dotenv from 'dotenv';
 
 import { prisma, MAPS_IMAGES_URL } from '../main';
 import { toMMSS } from '../utils/toMMSS';
-
-dotenv.config();
 
 export default {
   data: new SlashCommandBuilder()
@@ -27,6 +24,7 @@ export default {
       const reply = await cmdCallback(interaction);
       await interaction.editReply(reply);
     } catch (err) {
+      console.error(err);
       await interaction.editReply('An internal error occured.');
     }
   },

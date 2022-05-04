@@ -1,4 +1,4 @@
-﻿import { Client, Intents } from 'discord.js';
+import { Client, Intents } from 'discord.js';
 import { readdirSync } from 'fs';
 import { PrismaClient } from '@prisma/client';
 import * as dotenv from 'dotenv';
@@ -7,6 +7,7 @@ import { join } from 'path';
 
 import { regCommands } from './deploy-commands';
 import { SlashCommand } from './types';
+import { api } from './api/builder';
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ export const prisma = new PrismaClient();
 export const MAPS_IMAGES_URL =
   'https://raw.githubusercontent.com/Sayt123/SurfMapPics/Maps-and-bonuses/csgo/';
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+export const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 const commands = new Map<string, SlashCommand>();
 
@@ -66,3 +67,7 @@ client.on('interactionCreate', async (interaction) => {
 
 // Login to Discord with your client's token
 client.login(process.env.TOKEN);
+
+api.listen(3000, () => {
+  console.log(`API is listening on port 3000`);
+});

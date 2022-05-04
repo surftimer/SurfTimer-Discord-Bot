@@ -4,11 +4,8 @@ import {
   MessageEmbed,
   WebhookMessageOptions,
 } from 'discord.js';
-import * as dotenv from 'dotenv';
 
 import { prisma, steamWebApi } from '../main';
-
-dotenv.config();
 
 export default {
   data: new SlashCommandBuilder()
@@ -20,6 +17,7 @@ export default {
       const reply = await cmdCallback();
       await interaction.editReply(reply);
     } catch (err) {
+      console.error(err);
       await interaction.editReply('An internal error occured.');
     }
   },

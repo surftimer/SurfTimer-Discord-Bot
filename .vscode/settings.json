@@ -1,4 +1,8 @@
 {
   "editor.formatOnPaste": true,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "[sourcepawn]": {
+    "editor.formatOnSave": false
+  },
+  "sourcepawn.MainPath": "addons\\sourcemod\\scripting\\SurfTimer-Discord-Bot.sp"
 }
