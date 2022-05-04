@@ -1,5 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, MessageEmbed } from 'discord.js';
+import {
+  CommandInteraction,
+  MessageEmbed,
+  WebhookMessageOptions,
+} from 'discord.js';
 import * as dotenv from 'dotenv';
 
 import { prisma, steamWebApi } from '../main';
@@ -11,11 +15,17 @@ export default {
     .setName('top')
     .setDescription('Gets the top 10 players.'),
   async execute(interaction: CommandInteraction) {
-    await cmdCallback(interaction);
+    await interaction.deferReply();
+    try {
+      const reply = await cmdCallback();
+      await interaction.editReply(reply);
+    } catch (err) {
+      await interaction.editReply('An internal error occured.');
+    }
   },
 };
 
-async function cmdCallback(interaction: CommandInteraction): Promise<void> {
+async function cmdCallback(): Promise<WebhookMessageOptions | string> {
   const res1 = await prisma.ck_playerrank.findMany({
     orderBy: {
       points: 'desc',
@@ -30,7 +40,7 @@ async function cmdCallback(interaction: CommandInteraction): Promise<void> {
     },
   });
   if (!res1) {
-    return interaction.reply(`No top players found.`);
+    return 'No top players found.';
   }
 
   const playerInfo = await steamWebApi.usersApi.getPlayerSummaries([
@@ -62,5 +72,5 @@ async function cmdCallback(interaction: CommandInteraction): Promise<void> {
     .setThumbnail(avatarfull)
     .addFields(fields);
 
-  return interaction.reply({ embeds: [embed] });
+  return { embeds: [embed] };
 }

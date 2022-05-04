@@ -1,5 +1,9 @@
 ﻿import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, MessageEmbed } from 'discord.js';
+import {
+  CommandInteraction,
+  MessageEmbed,
+  WebhookMessageOptions,
+} from 'discord.js';
 import * as dotenv from 'dotenv';
 
 import { prisma, MAPS_IMAGES_URL } from '../main';
@@ -18,11 +22,19 @@ export default {
         .setRequired(true),
     ),
   async execute(interaction: CommandInteraction) {
-    await cmdCallback(interaction);
+    await interaction.deferReply();
+    try {
+      const reply = await cmdCallback(interaction);
+      await interaction.editReply(reply);
+    } catch (err) {
+      await interaction.editReply('An internal error occured.');
+    }
   },
 };
 
-async function cmdCallback(interaction: CommandInteraction): Promise<void> {
+async function cmdCallback(
+  interaction: CommandInteraction,
+): Promise<WebhookMessageOptions | string> {
   const mapname = interaction.options.getString('mapname').toLowerCase();
   const res1 = await prisma.ck_maptier.findUnique({
     where: {
@@ -34,7 +46,7 @@ async function cmdCallback(interaction: CommandInteraction): Promise<void> {
     },
   });
   if (!res1) {
-    return interaction.reply(`${mapname} not found.`);
+    return `${mapname} not found.`;
   }
 
   const { tier, maxvelocity } = res1;
@@ -153,5 +165,5 @@ async function cmdCallback(interaction: CommandInteraction): Promise<void> {
       },
     ]);
 
-  return interaction.reply({ embeds: [embed] });
+  return { embeds: [embed] };
 }

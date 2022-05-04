@@ -1,5 +1,4 @@
 ﻿import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction } from 'discord.js';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -9,10 +8,16 @@ export default {
     .setName('ping')
     .setDescription('Replies with Pong!'),
   async execute(interaction) {
-    await cmdCallback(interaction);
+    await interaction.deferReply();
+    try {
+      const reply = await cmdCallback();
+      await interaction.editReply(reply);
+    } catch (err) {
+      await interaction.editReply('An internal error occured.');
+    }
   },
 };
 
-async function cmdCallback(interaction: CommandInteraction): Promise<void> {
-  return interaction.reply('Pong!');
+async function cmdCallback(): Promise<string> {
+  return 'Pong!';
 }

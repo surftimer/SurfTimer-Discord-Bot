@@ -1,5 +1,9 @@
 ﻿import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, MessageEmbed } from 'discord.js';
+import {
+  CommandInteraction,
+  MessageEmbed,
+  WebhookMessageOptions,
+} from 'discord.js';
 import * as dotenv from 'dotenv';
 import { prisma, steamWebApi } from '../main';
 import { convertToSteam64 } from '../utils/convertToSteam64';
@@ -19,19 +23,27 @@ export default {
         .setRequired(true),
     ),
   async execute(interaction: CommandInteraction) {
-    await cmdCallback(interaction);
+    await interaction.deferReply();
+    try {
+      const reply = await cmdCallback(interaction);
+      await interaction.editReply(reply);
+    } catch (err) {
+      await interaction.editReply('An internal error occured.');
+    }
   },
 };
 
-async function cmdCallback(interaction: CommandInteraction): Promise<void> {
+async function cmdCallback(
+  interaction: CommandInteraction,
+): Promise<WebhookMessageOptions | string> {
   const playerID = interaction.options.getString('playerid');
   const steamID64 = await convertToSteam64(playerID, process.env.STEAM_API_KEY);
   if (steamID64 === undefined) {
-    return interaction.reply('Incorrect playerID.');
+    return 'Incorrect playerID.';
   }
   const playerInfo = await steamWebApi.usersApi.getPlayerSummaries([steamID64]);
   if (playerInfo.response.players.length === 0) {
-    return interaction.reply('Incorrect playerID.');
+    return 'Incorrect playerID.';
   }
 
   const player = playerInfo.response.players[0];
@@ -51,9 +63,7 @@ async function cmdCallback(interaction: CommandInteraction): Promise<void> {
   const profileurl = player.profileurl;
 
   if (!res1) {
-    return interaction.reply(
-      `${personaname} not found in the SurfTimer database.`,
-    );
+    return `${personaname} not found in the SurfTimer database.`;
   }
   const { points, steamid } = res1;
 
@@ -121,5 +131,5 @@ async function cmdCallback(interaction: CommandInteraction): Promise<void> {
       { name: 'Score', value: points.toString(), inline: true },
     ]);
 
-  return interaction.reply({ embeds: [embed] });
+  return { embeds: [embed] };
 }
