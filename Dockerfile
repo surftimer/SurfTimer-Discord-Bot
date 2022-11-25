@@ -11,4 +11,4 @@ RUN git clone https://github.com/Sarrus1/SurfTimer-Discord-Bot.git .
 
 RUN npm i && npm run build
 
-CMD npm run start
+CMD ["npm", "run", "start"]

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
     surftimer-bot:
-        build: ./
+        image: ghcr.io/surftimer/surftimer-discord-bot:latest
         restart: always
         environment:
             # Discord token (https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)

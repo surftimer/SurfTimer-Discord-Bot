@@ -32,17 +32,14 @@ It uses the [discord.js](https://discord.js.org/#/) library and the [prisma ORM]
 
 ## How to use it
 
-### Using Docker (recommended)
+### Using Docker (Easy and Recommended)
 
 1. Install [Docker](https://docs.docker.com/engine/install/ubuntu/).
 2. Create a directory called `SurfTimer-Bot` --- `mkdir SurfTimer-Bot`
-3. In this directory, create a file named `Dockerfile` --- `nano SurfTimer-Bot/Dockerfile`.
-4. In this file, paste the contents of [this file](https://raw.githubusercontent.com/Sarrus1/SurfTimer-Discord-Bot/main/Dockerfile).
-5. In the same directory, create a file named `.env` --- `nano SurfTimer-Bot/.env`
-6. In this file, paste the contents of [this file](https://raw.githubusercontent.com/Sarrus1/SurfTimer-Discord-Bot/main/env_sample.txt).
-7. Edit the environment variables accordingly (follow the URL for a detailed guide).
-8. Run the following command to build the Docker image: `docker build SurfTimer-Bot/ -t surftimer-bot`
-9. Now run the container with the following command: `docker run -d --env-file=SurfTimer-Bot/.env surftimer-bot`
+3. In this directory, create a file named `docker-compose.yml` --- `nano docker-compose.yml`.
+4. In this `docker-compose.yml`, copy/paste the contents of [this file](https://raw.githubusercontent.com/surftimer/SurfTimer-Discord-Bot/main/docker-compose.yml).
+5. In this `docker-compose.yml`, edit the environment variables accordingly (follow the URL for a detailed guide).
+6. Now run the container with `docker compose up -d`.
 
 ### Using Node.js
 
