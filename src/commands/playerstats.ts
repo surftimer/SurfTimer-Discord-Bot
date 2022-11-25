@@ -1,8 +1,8 @@
 ﻿import { SlashCommandBuilder } from '@discordjs/builders';
 import {
   CommandInteraction,
-  MessageEmbed,
-  WebhookMessageOptions,
+  EmbedBuilder,
+  WebhookEditMessageOptions,
 } from 'discord.js';
 import { prisma, steamWebApi } from '../main';
 import { convertToSteam64 } from '../utils/convertToSteam64';
@@ -33,7 +33,10 @@ export default {
 
 async function cmdCallback(
   interaction: CommandInteraction,
-): Promise<WebhookMessageOptions | string> {
+): Promise<WebhookEditMessageOptions | string> {
+  if (!interaction.isChatInputCommand()) {
+    return '';
+  }
   const playerID = interaction.options.getString('playerid');
   const steamID64 = await convertToSteam64(playerID, process.env.STEAM_API_KEY);
   if (steamID64 === undefined) {
@@ -106,7 +109,7 @@ async function cmdCallback(
     (finishedBonuses / (totalBonuses ? totalBonuses : 1)) * 100,
   );
 
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setTitle(`📈 __Player statistics__ 📈`)
     .setThumbnail(avatarfull)
     .addFields([

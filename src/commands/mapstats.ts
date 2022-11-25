@@ -1,8 +1,8 @@
 ﻿import { SlashCommandBuilder } from '@discordjs/builders';
 import {
   CommandInteraction,
-  MessageEmbed,
-  WebhookMessageOptions,
+  EmbedBuilder,
+  WebhookEditMessageOptions,
 } from 'discord.js';
 
 import { prisma, MAPS_IMAGES_URL } from '../main';
@@ -32,7 +32,10 @@ export default {
 
 async function cmdCallback(
   interaction: CommandInteraction,
-): Promise<WebhookMessageOptions | string> {
+): Promise<WebhookEditMessageOptions | string> {
+  if (!interaction.isChatInputCommand()) {
+    return '';
+  }
   const mapname = interaction.options.getString('mapname').toLowerCase();
   const res1 = await prisma.ck_maptier.findUnique({
     where: {
@@ -117,7 +120,7 @@ async function cmdCallback(
     },
   });
 
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setTitle(`📈 __Map statistics__ 📈`)
     .setImage(`${MAPS_IMAGES_URL}/${mapname}.jpg`)
     .addFields([

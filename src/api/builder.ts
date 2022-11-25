@@ -1,4 +1,4 @@
-import { BufferResolvable, MessageAttachment, TextChannel } from 'discord.js';
+import { BufferResolvable, AttachmentBuilder, TextChannel } from 'discord.js';
 import * as express from 'express';
 import { readFileSync } from 'fs';
 import nodeHtmlToImage from 'node-html-to-image';
@@ -44,10 +44,9 @@ api.post('/record', async (req, res) => {
       timeDiff: data.timeDiff,
     },
   }).then((image) => {
-    const attachment = new MessageAttachment(
-      image as BufferResolvable,
-      'record-image.png',
-    );
+    const attachment = new AttachmentBuilder(image as BufferResolvable, {
+      name: 'record-image.png',
+    });
 
     const content = {
       files: [attachment],

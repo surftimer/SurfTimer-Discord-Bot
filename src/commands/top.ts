@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import {
   CommandInteraction,
-  MessageEmbed,
-  WebhookMessageOptions,
+  EmbedBuilder,
+  WebhookEditMessageOptions,
 } from 'discord.js';
 
 import { prisma, steamWebApi } from '../main';
@@ -23,7 +23,7 @@ export default {
   },
 };
 
-async function cmdCallback(): Promise<WebhookMessageOptions | string> {
+async function cmdCallback(): Promise<WebhookEditMessageOptions | string> {
   const res1 = await prisma.ck_playerrank.findMany({
     orderBy: {
       points: 'desc',
@@ -65,7 +65,7 @@ async function cmdCallback(): Promise<WebhookMessageOptions | string> {
     };
   });
 
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setTitle(`🏆 __Top players__ 🏆`)
     .setThumbnail(avatarfull)
     .addFields(fields);

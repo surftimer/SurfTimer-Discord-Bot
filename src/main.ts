@@ -1,4 +1,4 @@
-import { Client, Intents } from 'discord.js';
+import { Client, GatewayIntentBits } from 'discord.js';
 import { readdirSync } from 'fs';
 import { PrismaClient } from '@prisma/client';
 import * as dotenv from 'dotenv';
@@ -18,7 +18,7 @@ export const prisma = new PrismaClient();
 export const MAPS_IMAGES_URL =
   'https://raw.githubusercontent.com/Sayt123/SurfMapPics/Maps-and-bonuses/csgo/';
 
-export const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+export const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 const commands = new Map<string, SlashCommand>();
 
