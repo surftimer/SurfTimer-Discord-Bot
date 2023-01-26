@@ -6,16 +6,16 @@ services:
         restart: always
         environment:
             # Discord token (https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)
-            - TOKEN: 0000000000000
+            - TOKEN=0000000000000
             # Guild ID (https://poshbot.readthedocs.io/en/latest/guides/backends/setup-discord-backend/#find-your-guild-id-server-id)
-            - GUILDID: 0000000000000
+            - GUILDID=0000000000000
             # Application ID (https://poshbot.readthedocs.io/en/latest/guides/backends/setup-discord-backend/#authorize-your-bot)
-            - CLIENTID: 0000000000000
+            - CLIENTID=0000000000000
             # Database URL (https://www.prisma.io/docs/concepts/database-connectors/mysql#connection-url)
-            - DATABASE_URL: mysql://USER:PASSWORD@HOST:PORT/DATABASE
+            - DATABASE_URL=mysql://USER:PASSWORD@HOST:PORT/DATABASE
             # Steam Web API key (https://steamcommunity.com/dev/apikey)
-            - STEAM_API_KEY: 0000000000000
+            - STEAM_API_KEY=0000000000000
             # The id of the channel where map records will be sent.
-            - MAP_RECORD_CHANNEL_ID: 869859765987607
+            - MAP_RECORD_CHANNEL_ID=869859765987607
             # The API key to use in your CSGO plugin. Generate it here (https://toolslite.com/api-key-generator)
-            - API_KEY: fGREZ78R98-fGREZ78R98-fGREZ78R98-fGREZ78R98-fGREZ78R98
+            - API_KEY=fGREZ78R98-fGREZ78R98-fGREZ78R98-fGREZ78R98-fGREZ78R98
