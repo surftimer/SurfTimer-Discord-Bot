@@ -2,7 +2,7 @@
 import {
   CommandInteraction,
   EmbedBuilder,
-  WebhookEditMessageOptions,
+  InteractionEditReplyOptions,
 } from 'discord.js';
 
 import { prisma, MAPS_IMAGES_URL } from '../main';
@@ -32,7 +32,7 @@ export default {
 
 async function cmdCallback(
   interaction: CommandInteraction,
-): Promise<WebhookEditMessageOptions | string> {
+): Promise<InteractionEditReplyOptions | string> {
   if (!interaction.isChatInputCommand()) {
     return '';
   }

@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import {
   CommandInteraction,
   EmbedBuilder,
-  WebhookEditMessageOptions,
+  InteractionEditReplyOptions,
 } from 'discord.js';
 
 import { prisma, steamWebApi } from '../main';
@@ -23,7 +23,7 @@ export default {
   },
 };
 
-async function cmdCallback(): Promise<WebhookEditMessageOptions | string> {
+async function cmdCallback(): Promise<InteractionEditReplyOptions | string> {
   const res1 = await prisma.ck_playerrank.findMany({
     orderBy: {
       points: 'desc',
